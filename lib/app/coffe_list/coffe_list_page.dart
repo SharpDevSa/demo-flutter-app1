@@ -20,17 +20,25 @@ class CoffeeListPage extends StatelessWidget {
     var router = Provider.of<CoffeeRouterNotifier>(context);
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(),
-      body: ListView(
-        children: [
-          for (var coffee in coffeeList)
-            ListTile(
-              title: Text(coffee.name),
-              subtitle: Text(coffee.id),
-              onTap: () => router.coffeeRoute = CoffeeRoutes.details(coffee.id)
-            )
-        ],
+      appBar: AppBar(
+        title: Text(
+          context.watch<CoffeeRouterNotifier>().coffeeRoute.id ?? 'Select your coffee',
+        ),
       ),
+      body:
+          ListView(
+            children: [
+              for (var coffee in coffeeList)
+                ListTile(
+                    title: Text(coffee.name),
+                    subtitle: Text(coffee.id),
+                    onTap: () => {
+                      context.read<CoffeeRouterNotifier>().coffeeRoute = CoffeeRoutes.details(coffee.id)
+                    }
+                )
+            ],
+          ),
+
     );
   }
 }
